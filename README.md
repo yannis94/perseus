@@ -1,0 +1,2 @@
+# perseus
+Minimalist chat app
