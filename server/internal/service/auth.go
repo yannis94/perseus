@@ -1,6 +1,10 @@
 package service
 
-import "time"
+import (
+	"time"
+
+	"github.com/yannis94/perseus/internal/config"
+)
 
 type Auth struct {
 
@@ -10,8 +14,24 @@ func NewAuthService() *Auth {
     return &Auth{}
 }
 
-func (auth *Auth) Login(email, password string) (User, error) {
-    //find user in db
+func (auth *Auth) Login(user User) (User, error) {
+    jwt_exp := time.Now().Add(config.JWT_EXP * time.Minute)
+    refresh_exp := time.Now().Add(config.REFRESH_EXP * time.Hour)
+
+    jwt, err := createToken(user.id, jwt_exp)
+    
+    if err != nil {
+        return User{}, err
+    }
+
+    refresh_token, err := createToken(user.id, refresh_exp)
+
+    if err != nil {
+        return User{}, err
+    }
+
+    user.token = jwt
+    user.refresh_token = refresh_token
     return User{}, nil
 }
 
@@ -20,7 +40,7 @@ func (auth *Auth) Logout(user_id int) error {
     return nil
 }
 
-func (auth *Auth) CreateToken(user_id int, exp_time time.Time) (string, error) {
+func createToken(user_id int, exp_time time.Time) (string, error) {
     //build jwt token 
     return "super-tkn", nil
 }

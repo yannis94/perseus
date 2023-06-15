@@ -1,25 +1,19 @@
 package service
 
-type Room struct {
-    Id int
-    Name string
-    Capacity int
+import (
+	"github.com/yannis94/perseus/internal/core"
+	"github.com/yannis94/perseus/internal/repository"
+)
+
+type RoomService struct {
+    room *core.Room
+    repo *repository.Repository
 }
 
-func NewRoomService() *Room {
-    return &Room{}
+func (service *RoomService) Create() error {
+    return service.repo.AddRoom(service.room)
 }
 
-func (r *Room) Create(name string, capacity int) (Room, error) {
-    //fetch room from db
-    return Room{}, nil
-}
-
-func (r *Room) Join(room_id int) (Room, error) {
-    //fetch room by id from db
-    return Room{}, nil
-}
-
-func (r *Room) Leave(room_id int) error {
-    return nil
+func (service *RoomService) Delete() error {
+    return service.repo.DeleteRoom(service.room.Id)
 }
