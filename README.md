@@ -1,5 +1,5 @@
 # perseus
-Minimalist chat app
+Minimalist chat app, create or join a room. One rule, the room is deleted when it is empty.
 
 # To Do
 ## Back-end
